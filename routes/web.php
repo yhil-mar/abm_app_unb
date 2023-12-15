@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 
@@ -32,3 +32,10 @@ Route::get('/register', [RegisteredUserController::class, 'create']);
 // Route::get('/users/create', [UsuarioController::class, 'create']);
 
 Route::resource('/users', UsuarioController::class);
+Auth::routes();
+
+Route::get('/home', [UsuarioController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/',[UsuarioController::class, 'index'])->name('home');
+});
